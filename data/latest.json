@@ -1,20 +1,23 @@
 {
   "entities": [
     {
-      "name": "Kl\u00e1vesnice",
+      "name": "Dog",
       "attributes": [
         {
           "name": "id",
-          "type": "integer",
-          "primary_key": true
+          "type": "number"
         },
         {
-          "name": "barva",
-          "type": "string"
+          "name": "name",
+          "type": "text"
         },
         {
-          "name": "cena",
-          "type": "decimal"
+          "name": "breed",
+          "type": "text"
+        },
+        {
+          "name": "age",
+          "type": "number"
         }
       ]
     }

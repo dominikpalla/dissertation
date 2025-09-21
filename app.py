@@ -7,6 +7,8 @@ from pathlib import Path
 from flask import Flask, render_template_string, request, jsonify
 from interpreter import interpret_step, save_spec
 from cogen import generate_module
+from validation import validate_module
+from feedback import process_report
 
 BASE_DIR = Path(__file__).parent
 MODULES_DIR = BASE_DIR / "modules"
@@ -144,6 +146,7 @@ def create_app():
               // Start conversation
               window.onload=()=>{
                 addMessage("bot","Hi! Describe the entity you want to track (e.g., 'Computer with RAM, CPU, SSD').");
+                userInput.focus();
               }
             </script>
           </body>
@@ -163,16 +166,40 @@ def create_app():
         if done:
             if spec and spec.get("entities"):
                 save_spec(spec, "latest")
+                # 1) vygeneruj modul
                 generate_module(spec)
-                progress_state["progress"] = 100
-                progress_state["message"] = "Restarting..."
+                # 2) spusť validaci
+                report = validate_module(spec)
 
-                def restart():
-                    time.sleep(1.0)
-                    os.execv(sys.executable, [sys.executable] + sys.argv)
+                if report.get("status") == "ok":
+                    progress_state["progress"] = 100
+                    progress_state["message"] = "Restarting..."
 
-                threading.Thread(target=restart).start()
-                return jsonify({"status": "final", "message": reply})
+                    def restart():
+                        time.sleep(1.0)
+                        os.execv(sys.executable, [sys.executable] + sys.argv)
+
+                    threading.Thread(target=restart).start()
+                    return jsonify({"status": "final", "message": "✅ Module generated & validated. Restarting…"})
+
+                # 3) předat feedbacku
+                fb = process_report(report, chat_history, spec)
+
+                if fb.get("next_action") == "auto_fix":
+                    generate_module(spec)
+                    report2 = validate_module(spec)
+                    if report2.get("status") == "ok":
+                        def restart():
+                            time.sleep(1.0)
+                            os.execv(sys.executable, [sys.executable] + sys.argv)
+                        threading.Thread(target=restart).start()
+                        return jsonify({"status": "final", "message": "✅ Auto-fix successful. Restarting…"})
+                    else:
+                        msg = fb.get("message", "") + "\\n\\nAuto-fix did not resolve all issues. What should I do next?"
+                        return jsonify({"status": "question", "message": msg})
+
+                return jsonify({"status": "question", "message": fb.get("message", "Validation issues found.")})
+
             else:
                 return jsonify({"status": "error", "message": "❌ No valid spec found, cannot generate module."})
 
