@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Lamp list</title>
+    <style>
+      table { border-collapse: collapse; width: 100%; }
+      th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+      th { background: #f2f2f2; }
+      a.button { padding: 4px 8px; background: #111; color: #fff; text-decoration: none; border-radius: 6px; }
+      a.button:hover { background: #333; }
+    </style>
+  </head>
+  <body>
+    <h2>Lamp list</h2>
+    <p><a href="{{ url_for('lamp.new_lamp') }}" class="button">+ New Lamp</a></p>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Color</th>
+          <th>Price</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+        <tr>
+          <td>{{ item['ID'] }}</td>
+          <td>{{ item['Color'] }}</td>
+          <td>{{ item['Price'] }}</td>
+          <td>
+            <a href="{{ url_for('lamp.edit_lamp', idx=loop.index0) }}" class="button">Edit</a>
+            <a href="{{ url_for('lamp.delete_lamp', idx=loop.index0) }}" class="button">Delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h2>Car List</h2>
+    <a href="{{ url_for('car.new_car') }}">Add new Car</a>
+    <ul>
+      {% for item in items %}
+        <li>
+          {% if item['license_plate'] %}license_plate: {{ item['license_plate'] }} {% endif %}<br>
+          {% if item['color'] %}color: {{ item['color'] }} {% endif %}<br>
+          {% if item['engine_volume'] %}engine_volume: {{ item['engine_volume'] }} {% endif %}<br>
+        </li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>

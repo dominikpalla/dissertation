@@ -1,0 +1,9 @@
+{
+  "entities": {
+    "Computer": {
+      "RAM": "int",
+      "CPU": "string",
+      "SSD": "int"
+    }
+  }
+}

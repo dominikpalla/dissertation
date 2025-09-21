@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Klávesnice list</title>
+    <style>
+      table { border-collapse: collapse; width: 100%; }
+      th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+      th { background: #f2f2f2; }
+      a.button { padding: 4px 8px; background: #111; color: #fff; text-decoration: none; border-radius: 6px; }
+      a.button:hover { background: #333; }
+    </style>
+  </head>
+  <body>
+    <h2>Klávesnice list</h2>
+    <p><a href="{{ url_for('klávesnice.new_klávesnice') }}" class="button">+ New Klávesnice</a></p>
+    <table>
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>barva</th>
+          <th>cena</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+        <tr>
+          <td>{{ item['id'] }}</td>
+          <td>{{ item['barva'] }}</td>
+          <td>{{ item['cena'] }}</td>
+          <td>
+            <a href="{{ url_for('klávesnice.edit_klávesnice', idx=loop.index0) }}" class="button">Edit</a>
+            <a href="{{ url_for('klávesnice.delete_klávesnice', idx=loop.index0) }}" class="button">Delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>

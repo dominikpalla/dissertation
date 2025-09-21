@@ -1,0 +1,22 @@
+{
+  "entities": [
+    {
+      "name": "Kl\u00e1vesnice",
+      "attributes": [
+        {
+          "name": "id",
+          "type": "integer",
+          "primary_key": true
+        },
+        {
+          "name": "barva",
+          "type": "string"
+        },
+        {
+          "name": "cena",
+          "type": "decimal"
+        }
+      ]
+    }
+  ]
+}

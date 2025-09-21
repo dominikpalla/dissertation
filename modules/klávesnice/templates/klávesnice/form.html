@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Klávesnice form</title>
+    <style>
+      label { display: block; margin-top: 8px; }
+      input { padding: 6px; width: 260px; }
+      button { margin-top: 12px; padding: 8px 14px; background: #111; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
+      button:hover { background: #333; }
+      a { text-decoration: none; }
+    </style>
+  </head>
+  <body>
+    <h2>Klávesnice form</h2>
+    <form method="post">
+      <label>Id: <input type="text" name="id" value="{{ item["id"] if item else "" }}"></label>
+      <label>Barva: <input type="text" name="barva" value="{{ item["barva"] if item else "" }}"></label>
+      <label>Cena: <input type="text" name="cena" value="{{ item["cena"] if item else "" }}"></label>
+      <button type="submit">Save</button>
+    </form>
+    <p><a href="{{ url_for('klávesnice.list_klávesnice') }}">Back to list</a></p>
+  </body>
+</html>

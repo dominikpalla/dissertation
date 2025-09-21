@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h2>Auto List</h2>
+    <a href="{{ url_for('auto.new_auto') }}">Add new Auto</a>
+    <ul>
+      {% for item in items %}
+        <li>
+          {% if item['spz'] %}spz: {{ item['spz'] }} {% endif %}<br>
+          {% if item['barva'] %}barva: {{ item['barva'] }} {% endif %}<br>
+          {% if item['objem_motoru'] %}objem_motoru: {{ item['objem_motoru'] }} {% endif %}<br>
+        </li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>

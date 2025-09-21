@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h2>Kolo List</h2>
+    <a href="{{ url_for('kolo.new_kolo') }}">Add new Kolo</a>
+    <ul>
+      {% for item in items %}
+        <li>
+          {% if item['barva'] %}barva: {{ item['barva'] }} {% endif %}<br>
+          {% if item['znacka'] %}znacka: {{ item['znacka'] }} {% endif %}<br>
+        </li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>
